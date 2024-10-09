@@ -1,13 +1,12 @@
 import smtplib
 import datetime as dt
 import random
+import pandas as pd
 
 now = dt.datetime.now()
-year = now.year
-month = now.month
 day_of_week = now.weekday()
-my_email = "zack03965@gmail.com"
-password = "aobx neto bpmq pyii"
+MY_EMAIL = "zack03965@gmail.com"
+MY_PASSWORD = "aobx neto bpmq pyii"
 
 with open("quotes.txt") as quotes:
     quote_list = quotes.readlines()
@@ -15,18 +14,44 @@ with open("quotes.txt") as quotes:
 
 random_quote = random.choice(clean_quote_list)
 
-if day_of_week == 2:
-    with smtplib.SMTP("smtp.gmail.com",port=587) as connection:
-        # Add security encryption
-        connection.starttls()
+list_of_bdays = []
 
-        connection.login(user=my_email,password=password)
-        connection.sendmail(
-            from_addr=my_email,
-            to_addrs="zack03965@yahoo.com",
-            msg="Subject:Daily Motivation\n\n"
-                f"{random_quote}"
-        )
+birthdays = pd.read_csv("birthdays.csv")
+bday_dict = birthdays.to_dict(orient="records")
+# print(bday_dict)
+for birthday in bday_dict:
+    date = dt.datetime(year=birthday["year"],month=birthday["month"],day=birthday["day"])
+    if now.month == birthday["month"] and now.day == birthday["day"]:
+        with open("letter.txt") as letter:
+            letter_body = letter.read()
+            modified_letter = letter_body.replace("[NAME]", birthday["name"])
+        with smtplib.SMTP("smtp.gmail.com",port=587) as connection:
+            # Add security encryption
+            connection.starttls()
+
+            connection.login(user=MY_EMAIL,password=MY_PASSWORD)
+            connection.sendmail(
+                from_addr=MY_EMAIL,
+                to_addrs="zack03965@yahoo.com",
+                msg="Subject:Happy Birthday\n\n"
+                    f"{modified_letter}\n\n"
+                    f"{random_quote}"
+            )
+
+
+
+# if day_of_week == 2:
+#     with smtplib.SMTP("smtp.gmail.com",port=587) as connection:
+#         # Add security encryption
+#         connection.starttls()
+#
+#         connection.login(user=MY_EMAIL,password=MY_PASSWORD)
+#         connection.sendmail(
+#             from_addr=MY_EMAIL,
+#             to_addrs="zack03965@yahoo.com",
+#             msg="Subject:Daily Motivation\n\n"
+#                 f"{random_quote}"
+#         )
 
 
 

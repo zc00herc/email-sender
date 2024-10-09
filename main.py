@@ -5,8 +5,8 @@ import pandas as pd
 
 now = dt.datetime.now()
 day_of_week = now.weekday()
-MY_EMAIL = "zack03965@gmail.com"
-MY_PASSWORD = "aobx neto bpmq pyii"
+MY_EMAIL = "email@gmail.com"
+MY_PASSWORD = "string"
 
 with open("quotes.txt") as quotes:
     quote_list = quotes.readlines()
@@ -29,7 +29,7 @@ for birthday in bday_dict:
             connection.login(user=MY_EMAIL,password=MY_PASSWORD)
             connection.sendmail(
                 from_addr=MY_EMAIL,
-                to_addrs="zack03965@yahoo.com",
+                to_addrs=birthday["email"],
                 msg="Subject:Happy Birthday\n\n"
                     f"{modified_letter}\n\n"
                     f"{random_quote}"

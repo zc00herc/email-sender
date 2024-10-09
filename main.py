@@ -14,11 +14,8 @@ with open("quotes.txt") as quotes:
 
 random_quote = random.choice(clean_quote_list)
 
-list_of_bdays = []
-
 birthdays = pd.read_csv("birthdays.csv")
 bday_dict = birthdays.to_dict(orient="records")
-# print(bday_dict)
 for birthday in bday_dict:
     date = dt.datetime(year=birthday["year"],month=birthday["month"],day=birthday["day"])
     if now.month == birthday["month"] and now.day == birthday["day"]:
@@ -37,23 +34,3 @@ for birthday in bday_dict:
                     f"{modified_letter}\n\n"
                     f"{random_quote}"
             )
-
-
-
-# if day_of_week == 2:
-#     with smtplib.SMTP("smtp.gmail.com",port=587) as connection:
-#         # Add security encryption
-#         connection.starttls()
-#
-#         connection.login(user=MY_EMAIL,password=MY_PASSWORD)
-#         connection.sendmail(
-#             from_addr=MY_EMAIL,
-#             to_addrs="zack03965@yahoo.com",
-#             msg="Subject:Daily Motivation\n\n"
-#                 f"{random_quote}"
-#         )
-
-
-
-# date_of_birth = dt.datetime(year=2000,month=12,day=25)
-# print(date_of_birth)
